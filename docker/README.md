@@ -23,7 +23,8 @@ source .env
 docker hotglue sed -i "s/changeme/${PASSWORD}/" /app/user-config.inc.php
 
 #run container as hotglue
-docker run -d --name hotglue -v app:/app hotglue-image
+docker run -d --name hotglue --restart=unless-stopped -v app:/app hotglue-image
+
 ```
 
 we running an nginx as service on docker host  
