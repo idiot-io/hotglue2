@@ -27,12 +27,14 @@ docker run -d --name hotglue --restart=unless-stopped -v app:/app hotglue-image
 
 ```
 
-we running an nginx as service on docker host  
+### Host Nginx
+running an nginx as service on docker host  
 so route `hotglue.idiot.io` to the docker container ip address.  
 
 get the running docker i using   
 `docker netwrok inspect bridge`
 
+add the follwoing to your `/etc/nginx/site-enabled/`
 ```conf
 server {
     server_name hotglue.idiot.io;
@@ -48,4 +50,19 @@ server {
     access_log /var/log/nginx/hotglue.access.log;
     error_log /var/log/nginx/hotglue.error.log;
 }
+```
+then
+```
+#validate conf file
+nginx -t
+
+#restart nginx
+systemctl restart nginx
+```
+validate
+```bash
+systemctl status nginx
+
+#try to login while following the error log
+tail `/var/log/nginx/hotglue.error.log` -f
 ```
